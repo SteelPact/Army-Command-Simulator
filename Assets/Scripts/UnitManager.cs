@@ -12,12 +12,10 @@ public class UnitManager : MonoBehaviour
     public int hitpoints = 10;
 
     public bool moved;
-    public bool attacked;
     
     public TMP_Text hitpointIndicator;
 
     public GameObject movedIndicator;
-    public GameObject attackedIndicator;
 
     void Update()
     {
@@ -25,7 +23,6 @@ public class UnitManager : MonoBehaviour
         hitpointIndicator.text = hitpoints.ToString();
 
         movedIndicator.SetActive(!moved);
-        attackedIndicator.SetActive(!attacked);
 
     }
 

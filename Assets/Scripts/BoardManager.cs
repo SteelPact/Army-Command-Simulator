@@ -482,6 +482,7 @@ public class BoardManager : MonoBehaviour
         {
 
             BreadthFirstSearchMove(index, speed[type], type);
+            BreadthFirstSearchAttack(index, range[type]);
 
             foreach(int possibleMoveIndex in possibleMoveIndexes)
             {
@@ -492,15 +493,6 @@ public class BoardManager : MonoBehaviour
             }
             moveTileColors.Add(tiles[index].GetComponent<SpriteRenderer>().color);
             tiles[index].GetComponent<SpriteRenderer>().color = myTile;
-
-            selectedUnit = index;
-
-        }
-        else if(selectedUnit == -1 && !units[index].GetComponent<UnitManager>().attacked && (tag == "FI" || tag == "FS" || tag == "FC" || tag == "FM" || tag == "FL" || tag == "FH" || tag == "FA" || tag == "FR"))
-        {
-
-            BreadthFirstSearchAttack(index, range[type]);
-
             foreach(int possibleAttackIndex in possibleAttackIndexes)
             {
         
@@ -514,17 +506,16 @@ public class BoardManager : MonoBehaviour
             selectedUnit = index;
 
         }
-        else if((!units[index].GetComponent<UnitManager>().moved || !units[index].GetComponent<UnitManager>().attacked) && (tag == "FI" || tag == "FS" || tag == "FC" || tag == "FM" || tag == "FL" || tag == "FH" || tag == "FA" || tag == "FR"))
+        else if(tag == "FI" || tag == "FS" || tag == "FC" || tag == "FM" || tag == "FL" || tag == "FH" || tag == "FA" || tag == "FR")
         {
 
             Tile(-1);
-            Move(index);
 
         }
         else if(possibleAttackIndexes.Contains(index))
         {
 
-            units[selectedUnit].GetComponent<UnitManager>().attacked = true;
+            units[selectedUnit].GetComponent<UnitManager>().moved = true;
             
             int type1 = 0;
             int type2 = 0;
@@ -798,18 +789,7 @@ public class BoardManager : MonoBehaviour
 
             }
 
-            for(int i = 0; i < possibleAttackIndexes.Count; i++)
-            {
-
-                tiles[possibleAttackIndexes[i]].GetComponent<SpriteRenderer>().color = attackTileColors[i];
-
-            }
-            tiles[selectedUnit].GetComponent<SpriteRenderer>().color = attackTileColors[attackTileColors.Count - 1];
-            
-            possibleAttackIndexes.Clear();
-            attackTileColors.Clear();
-
-            selectedUnit = -1;
+            Tile(-1);
 
         }
 
@@ -849,28 +829,7 @@ public class BoardManager : MonoBehaviour
 
             units[selectedUnit] = null;
 
-            for(int i = 0; i < possibleMoveIndexes.Count; i++)
-            {
-                
-                tiles[possibleMoveIndexes[i]].GetComponent<SpriteRenderer>().color = moveTileColors[i];
-
-            }
-            tiles[selectedUnit].GetComponent<SpriteRenderer>().color = moveTileColors[moveTileColors.Count - 1];
-
-            possibleMoveIndexes.Clear();
-            moveTileColors.Clear();
-
-            for(int i = 0; i < possibleAttackIndexes.Count; i++)
-            {
-
-                tiles[possibleAttackIndexes[i]].GetComponent<SpriteRenderer>().color = attackTileColors[i];
-
-            }
-            
-            possibleAttackIndexes.Clear();
-            attackTileColors.Clear();
-
-            selectedUnit = -1;
+            Tile(-1);
 
         }
         else
@@ -896,12 +855,6 @@ public class BoardManager : MonoBehaviour
             {
 
                 tiles[possibleAttackIndexes[i]].GetComponent<SpriteRenderer>().color = attackTileColors[i];
-
-            }
-            if(attackTileColors.Count != 0)
-            {
-
-                tiles[selectedUnit].GetComponent<SpriteRenderer>().color = attackTileColors[attackTileColors.Count - 1];
 
             }
 
@@ -942,7 +895,6 @@ public class BoardManager : MonoBehaviour
             {
 
                 units[i].GetComponent<UnitManager>().moved = false;
-                units[i].GetComponent<UnitManager>().attacked = false;
 
                 if(units[i].tag == "EI" || units[i].tag == "ES" || units[i].tag == "EC" || units[i].tag == "EM" || units[i].tag == "EL" || units[i].tag == "EH" || units[i].tag == "EA" || units[i].tag == "ER")
                 {
@@ -1059,7 +1011,7 @@ public class BoardManager : MonoBehaviour
                 if(possibleAttackIndexes.Count > 0)
                 {
 
-                    units[selectedUnit].GetComponent<UnitManager>().attacked = true;
+                    units[selectedUnit].GetComponent<UnitManager>().moved = true;
             
                     int type1 = 0;
                     int type2 = 0;
@@ -1367,15 +1319,6 @@ public class BoardManager : MonoBehaviour
                     Destroy(unit);
 
                     units[selectedUnit] = null;
-
-                    if(PlayerPrefs.GetString(slot.ToString() + "Difficulty", "Hard") == "Hard")
-                    {
-                        
-                        enemies.Insert(0, index);
-                        enemiesHaveMoved.Insert(0, true);
-                        i += 1;
-
-                    }
 
                 }
 

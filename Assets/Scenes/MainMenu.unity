@@ -1751,6 +1751,7 @@ MonoBehaviour:
   canvasSettings: {fileID: 1522855267}
   picturesTutorial: {fileID: 1075083221}
   audioMixer: {fileID: 24100000, guid: 064b7f6cdc023c14c9339720e5d41ff5, type: 2}
+  slotToReset: 0
 --- !u!4 &334441690
 Transform:
   m_ObjectHideFlags: 0
