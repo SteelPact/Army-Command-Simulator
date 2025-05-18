@@ -673,6 +673,13 @@ public class BoardManager : MonoBehaviour
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
+                        if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
+                        {
+
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+
+                        }
+
                         Destroy(units[selectedUnit]);
                         units[selectedUnit] = null;
 
@@ -705,6 +712,13 @@ public class BoardManager : MonoBehaviour
                     units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
+
+                        if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
+                        {
+
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+
+                        }
 
                         Destroy(units[selectedUnit]);
                         units[selectedUnit] = null;
@@ -739,6 +753,13 @@ public class BoardManager : MonoBehaviour
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
+                        if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
+                        {
+
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+
+                        }
+
                         Destroy(units[selectedUnit]);
                         units[selectedUnit] = null;
 
@@ -771,6 +792,13 @@ public class BoardManager : MonoBehaviour
                     units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
+
+                        if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
+                        {
+
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+
+                        }
 
                         Destroy(units[selectedUnit]);
                         units[selectedUnit] = null;
@@ -867,23 +895,12 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    public void Idle()
-    {
-
-        if(selectedUnit != -1)
-        {
-
-            units[selectedUnit].GetComponent<UnitManager>().moved = true;
-            Tile(-1);
-
-        }
-
-    }
-
     public void EndTurn()
     {
         
         Tile(-1);
+
+        int friendlies = 0;
 
         List<int> enemies = new List<int>();
         List<bool> enemiesHaveMoved = new List<bool>();
@@ -901,6 +918,12 @@ public class BoardManager : MonoBehaviour
 
                     enemies.Add(i);
                     enemiesHaveMoved.Add(false);
+
+                }
+                else
+                {
+
+                    friendlies += 1;
 
                 }
 
@@ -938,7 +961,13 @@ public class BoardManager : MonoBehaviour
 
         }
 
-        if(enemies.Count == 0)
+        if(friendlies == 0)
+        {
+
+            EndGame();
+
+        }
+        else if(enemies.Count == 0)
         {
             
             PlayerPrefs.SetInt(slot.ToString() + "Level", PlayerPrefs.GetInt(slot.ToString() + "Level", 1) + 1);
@@ -1157,6 +1186,8 @@ public class BoardManager : MonoBehaviour
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
@@ -1185,6 +1216,8 @@ public class BoardManager : MonoBehaviour
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
@@ -1213,6 +1246,8 @@ public class BoardManager : MonoBehaviour
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
@@ -1241,6 +1276,8 @@ public class BoardManager : MonoBehaviour
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 

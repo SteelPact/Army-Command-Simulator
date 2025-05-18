@@ -143,6 +143,19 @@ public class BriefingManager : MonoBehaviour
             SceneManager.LoadScene("Board");
 
         }
+        else
+        {
+            
+            while(alreadySelected.Count < 5)
+            {
+                
+                Tile(Random.Range(90, 99));
+            
+            }
+
+            SceneManager.LoadScene("Board");
+
+        }
 
     }
 
