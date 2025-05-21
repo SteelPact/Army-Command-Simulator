@@ -970,7 +970,7 @@ public class BoardManager : MonoBehaviour
         else if(enemies.Count == 0)
         {
             
-            PlayerPrefs.SetInt(slot.ToString() + "Level", PlayerPrefs.GetInt(slot.ToString() + "Level", 1) + 1);
+            PlayerPrefs.SetInt(slot.ToString() + "Level", PlayerPrefs.GetInt(slot.ToString() + "Level", 1) + 2);
 
             EndGame();
 
@@ -1375,6 +1375,8 @@ public class BoardManager : MonoBehaviour
 
     public void EndGame()
     {
+
+        PlayerPrefs.SetInt(slot.ToString() + "Level", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) - 1, 1));
 
         SceneManager.LoadScene("Headquarters");
 
