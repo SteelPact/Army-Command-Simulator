@@ -1934,7 +1934,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: China
+  m_text: Australia
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
   m_sharedMaterial: {fileID: 2295003175431915533, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
@@ -4453,7 +4453,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 0cc435087a97767418585f754950f8e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8628,7 +8628,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tanks & Motorized
+  m_text: Infantry & Motorized
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
   m_sharedMaterial: {fileID: 2295003175431915533, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
@@ -10173,7 +10173,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tanks & Motorized
+  m_text: Infantry & Motorized
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
   m_sharedMaterial: {fileID: 2295003175431915533, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
@@ -10819,7 +10819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8f21b0d5084f56d438e357ed037a4f85, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10894,7 +10894,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Artillery & Motorized
+  m_text: Motorized & Tanks
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
   m_sharedMaterial: {fileID: 2295003175431915533, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
@@ -12083,7 +12083,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 26e512c8e0a8665448ba7f3acda9b29c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14372,7 +14372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tanks & Motorized
+  m_text: Infantry & Motorized
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
   m_sharedMaterial: {fileID: 2295003175431915533, guid: 699a4c80be165c44a8fe5e09eeb61e0a, type: 2}
