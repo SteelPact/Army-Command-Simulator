@@ -11,7 +11,6 @@ public class MainMenuManager : MonoBehaviour
     public GameObject canvasDifficulty;
     public GameObject canvasTutorial;
     public GameObject canvasSettings;
-    public GameObject picturesTutorial;
     public AudioMixer audioMixer;
 
     public int slotToReset;
@@ -84,7 +83,6 @@ public class MainMenuManager : MonoBehaviour
 
         canvasMain.SetActive(!canvasMain.activeSelf);
         canvasTutorial.SetActive(!canvasTutorial.activeSelf);
-        picturesTutorial.SetActive(!picturesTutorial.activeSelf);
 
     }
 
