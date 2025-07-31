@@ -15,9 +15,8 @@ public class HeadquartersManager : MonoBehaviour
 
     public TMP_Text moneyIndicator;
 
-    public List<GameObject> unitPrefabs;
-
-    public List<GameObject> images;
+    public List<TMP_Text> units;
+    public string[] unitNames;
 
     public List<TMP_Text> upgradeIndicator;
 
@@ -42,32 +41,17 @@ public class HeadquartersManager : MonoBehaviour
         int unit4 = PlayerPrefs.GetInt(slot.ToString() + "Unit" + "4", 6);
         int unit5 = PlayerPrefs.GetInt(slot.ToString() + "Unit" + "5", 4);
 
-        foreach(GameObject image in images)
-        {
-
-            Destroy(image);
-
-        }
-
-        images.Clear();
-
-        images.Add(Instantiate(unitPrefabs[unit1], new Vector3(-7.5f, 1.0f, 0.0f), Quaternion.identity));
-        images.Add(Instantiate(unitPrefabs[unit2], new Vector3(-7.5f, -0.25f, 0.0f), Quaternion.identity));
-        images.Add(Instantiate(unitPrefabs[unit3], new Vector3(-7.5f, -1.5f, 0.0f), Quaternion.identity));
-        images.Add(Instantiate(unitPrefabs[unit4], new Vector3(-7.5f, -2.75f, 0.0f), Quaternion.identity));
-        images.Add(Instantiate(unitPrefabs[unit5], new Vector3(-7.5f, -4.0f, 0.0f), Quaternion.identity));
-
         int hitpoints1 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "1", 10);
         int hitpoints2 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "2", 10);
         int hitpoints3 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "3", 10);
         int hitpoints4 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "4", 10);
         int hitpoints5 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "5", 10);
 
-        images[0].GetComponent<UnitDataStorage>().hitpointIndicator.text = hitpoints1.ToString();
-        images[1].GetComponent<UnitDataStorage>().hitpointIndicator.text = hitpoints2.ToString();
-        images[2].GetComponent<UnitDataStorage>().hitpointIndicator.text = hitpoints3.ToString();
-        images[3].GetComponent<UnitDataStorage>().hitpointIndicator.text = hitpoints4.ToString();
-        images[4].GetComponent<UnitDataStorage>().hitpointIndicator.text = hitpoints5.ToString();
+        units[0].text = unitNames[unit1] + " - Level " + hitpoints1.ToString();
+        units[1].text = unitNames[unit2] + " - Level " + hitpoints2.ToString();
+        units[2].text = unitNames[unit3] + " - Level " + hitpoints3.ToString();
+        units[3].text = unitNames[unit4] + " - Level " + hitpoints4.ToString();
+        units[4].text = unitNames[unit5] + " - Level " + hitpoints5.ToString();
 
         PlayerPrefs.SetInt(slot.ToString() + "Money", money);
 
