@@ -20,12 +20,34 @@ public class HeadquartersManager : MonoBehaviour
 
     public List<TMP_Text> upgradeIndicator;
 
+    public TMP_Text nextMaps;
+
     void Start()
     {
 
         slot = PlayerPrefs.GetInt("Slot");
 
         titleText.text = "Campaign -	" + PlayerPrefs.GetString(slot.ToString() + "Nation", "Germany") + " -	" + PlayerPrefs.GetString(slot.ToString() + "Difficulty", "Hard");
+
+        int level = PlayerPrefs.GetInt(slot.ToString() + "Level", 1);
+
+        if(PlayerPrefs.GetString(slot.ToString() + "Nation", "Germany") == "Germany")
+        {
+
+            if(level >= 1 && level <= 8)
+            {
+
+                nextMaps.text = "Danzig, 1939\nWarsaw, 1939\nNorway, 1940\nArdennes, 1940\nDunkirk, 1940\nCyrenaica, 1941\nBelgrade, 1941\nGreece, 1941";
+
+            }
+            else if(level >= 9)
+            {
+
+                nextMaps.text = "Belarus, 1941\nKiev, 1941\nSmolensk, 1941\nLeningrad, 1941\nMoscow, 1941\nRostov, 1941\nStalingrad, 1942\nKursk, 1943";
+
+            }
+        
+        }
 
     }
 

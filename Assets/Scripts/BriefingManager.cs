@@ -20,6 +20,9 @@ public class BriefingManager : MonoBehaviour
 
     public List<GameObject> unitPrefabs;
 
+    public bool[] friendlyBonuses = new bool[16];
+    public bool[] enemyBonuses = new bool[16];
+
     void Start()
     {
 
@@ -27,64 +30,102 @@ public class BriefingManager : MonoBehaviour
 
         string setupString = "7777777777";
 
-        if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 1)
+        if(PlayerPrefs.GetString(slot.ToString() + "Nation", "Germany") == "Germany")
         {
 
-            setupString = "2000000022";
+            friendlyBonuses[6] = true;
+            friendlyBonuses[9] = true;
+            
+            if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 1)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 2)
-        {
+                setupString = "2000000022";
 
-            setupString = "2000022220";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 3)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 2)
+            {
 
-            setupString = "0000000664";
+                setupString = "2000022220";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 4)
-        {
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-            setupString = "0022334555";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 3)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 5)
-        {
+                setupString = "0000000664";
 
-            setupString = "5554444333";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 6)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 4)
+            {
 
-            setupString = "1116663444";
+                setupString = "0022334555";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 7)
-        {
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-            setupString = "1112222000";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 5)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 8)
-        {
+                setupString = "5554444333";
 
-            setupString = "6777111111";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 9)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 6)
+            {
 
-            setupString = "5447321111";
+                setupString = "1116663444";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 10)
-        {
+                enemyBonuses[2] = true;
+                enemyBonuses[15] = true;
 
-            setupString = "3000117445";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 7)
+            {
+
+                setupString = "1112222000";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 8)
+            {
+
+                setupString = "6777111111";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 9)
+            {
+
+                setupString = "5447310000";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[7] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 10)
+            {
+
+                setupString = "3000117445";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[7] = true;
+
+            }
 
         }
 
@@ -109,6 +150,38 @@ public class BriefingManager : MonoBehaviour
 
             GameObject newUnit = Instantiate(unit, new Vector3((i % 10) - 4.5f, (i - (i % 10)) / -10.0f + 4.5f, 0.0f), Quaternion.identity);
             newUnit.transform.localScale = new Vector3(0.8f, 0.8f, 0.0f);
+
+            units[i] = newUnit;
+
+        }
+        
+        for(int i = 0; i < 10; i++)
+        {
+
+            if((setupString[i] == '0' || setupString[i] == '1') && enemyBonuses[0])
+            {
+                
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '2' || setupString[i] == '3') && enemyBonuses[1])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '4' || setupString[i] == '5') && enemyBonuses[2])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '6' || setupString[i] == '7') && enemyBonuses[3])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
 
         }
 

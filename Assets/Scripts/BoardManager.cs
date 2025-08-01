@@ -29,6 +29,9 @@ public class BoardManager : MonoBehaviour
 
     public TMP_Text moneyIndicator;
 
+    public bool[] friendlyBonuses = new bool[16];
+    public bool[] enemyBonuses = new bool[16];
+
     void Start()
     {
         
@@ -36,64 +39,102 @@ public class BoardManager : MonoBehaviour
 
         string setupString = "7777777777";
 
-        if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 1)
+        if(PlayerPrefs.GetString(slot.ToString() + "Nation", "Germany") == "Germany")
         {
 
-            setupString = "2000000022";
+            friendlyBonuses[6] = true;
+            friendlyBonuses[9] = true;
+            
+            if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 1)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 2)
-        {
+                setupString = "2000000022";
 
-            setupString = "2000022220";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 3)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 2)
+            {
 
-            setupString = "0000000664";
+                setupString = "2000022220";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 4)
-        {
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-            setupString = "0022334555";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 3)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 5)
-        {
+                setupString = "0000000664";
 
-            setupString = "5554444333";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 6)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 4)
+            {
 
-            setupString = "1116663444";
+                setupString = "0022334555";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 7)
-        {
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-            setupString = "1112222000";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 5)
+            {
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 8)
-        {
+                setupString = "5554444333";
 
-            setupString = "6777111111";
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 9)
-        {
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 6)
+            {
 
-            setupString = "5447310000";
+                setupString = "1116663444";
 
-        }
-        else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 10)
-        {
+                enemyBonuses[2] = true;
+                enemyBonuses[15] = true;
 
-            setupString = "3000117445";
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 7)
+            {
+
+                setupString = "1112222000";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 8)
+            {
+
+                setupString = "6777111111";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[1] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 9)
+            {
+
+                setupString = "5447310000";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[7] = true;
+
+            }
+            else if(PlayerPrefs.GetInt(slot.ToString() + "Level", 1) == 10)
+            {
+
+                setupString = "3000117445";
+
+                enemyBonuses[0] = true;
+                enemyBonuses[7] = true;
+
+            }
 
         }
 
@@ -167,6 +208,36 @@ public class BoardManager : MonoBehaviour
             units[index].GetComponent<UnitManager>().i = i;
             units[index].GetComponent<UnitManager>().hitpoints = hitpoints;
 
+        }
+
+        for(int i = 0; i < 10; i++)
+        {
+            
+            if((setupString[i] == '0' || setupString[i] == '1') && enemyBonuses[0])
+            {
+                
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '2' || setupString[i] == '3') && enemyBonuses[1])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '4' || setupString[i] == '5') && enemyBonuses[2])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            else if((setupString[i] == '6' || setupString[i] == '7') && enemyBonuses[3])
+            {
+
+                units[i].GetComponent<UnitManager>().hitpoints++;
+
+            }
+            
         }
 
     }
@@ -428,11 +499,27 @@ public class BoardManager : MonoBehaviour
     public void Move(int index)
     {
         
+        int bonusMovement = 0;
+        int bonusRange = 0;
+
         string tag = units[index].tag;
         if(tag == "FI" || tag == "EI")
         {
 
             type = 0;
+            
+            if(friendlyBonuses[8])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[12])
+            {
+
+                bonusRange++;
+
+            }
 
         }
         else if(tag == "FS" || tag == "ES")
@@ -440,11 +527,37 @@ public class BoardManager : MonoBehaviour
 
             type = 1;
 
+            if(friendlyBonuses[8])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[12])
+            {
+
+                bonusRange++;
+
+            }
+
         }
         else if(tag == "FC" || tag == "EC")
         {
 
             type = 2;
+
+            if(friendlyBonuses[9])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[13])
+            {
+
+                bonusRange++;
+
+            }
 
         }
         else if(tag == "FM" || tag == "EM")
@@ -452,11 +565,37 @@ public class BoardManager : MonoBehaviour
 
             type = 3;
 
+            if(friendlyBonuses[9])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[13])
+            {
+
+                bonusRange++;
+
+            }
+
         }
         else if(tag == "FL" || tag == "EL")
         {
 
             type = 4;
+
+            if(friendlyBonuses[10])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[14])
+            {
+
+                bonusRange++;
+
+            }
 
         }
         else if(tag == "FH" || tag == "EH")
@@ -464,11 +603,37 @@ public class BoardManager : MonoBehaviour
 
             type = 5;
 
+            if(friendlyBonuses[10])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[14])
+            {
+
+                bonusRange++;
+
+            }
+
         }
         else if(tag == "FA" || tag == "EA")
         {
 
             type = 6;
+
+            if(friendlyBonuses[11])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[15])
+            {
+
+                bonusRange++;
+
+            }
 
         }
         else if(tag == "FR" || tag == "ER")
@@ -476,13 +641,26 @@ public class BoardManager : MonoBehaviour
 
             type = 7;
 
+            if(friendlyBonuses[11])
+            {
+
+                bonusMovement++;
+
+            }
+            if(friendlyBonuses[15])
+            {
+
+                bonusRange++;
+
+            }
+
         }
         
         if(selectedUnit == -1 && !units[index].GetComponent<UnitManager>().moved && (tag == "FI" || tag == "FS" || tag == "FC" || tag == "FM" || tag == "FL" || tag == "FH" || tag == "FA" || tag == "FR"))
         {
 
-            BreadthFirstSearchMove(index, speed[type], type);
-            BreadthFirstSearchAttack(index, range[type]);
+            BreadthFirstSearchMove(index, speed[type] + bonusMovement, type);
+            BreadthFirstSearchAttack(index, range[type] + bonusRange);
 
             foreach(int possibleMoveIndex in possibleMoveIndexes)
             {
@@ -522,12 +700,22 @@ public class BoardManager : MonoBehaviour
             bool hard1 = false;
             bool hard2 = false;
 
+            int bonusAttack = 0;
+            int bonusAttack2 = 0;
+
             string tag1 = units[selectedUnit].tag;
             if(tag1 == "FI" || tag1 == "EI")
             {
 
                 type1 = 0;
                 hard1 = false;
+                
+                if(friendlyBonuses[4])
+                {
+
+                    bonusAttack++;
+
+                }
 
             }
             else if(tag1 == "FS" || tag1 == "ES")
@@ -536,12 +724,26 @@ public class BoardManager : MonoBehaviour
                 type1 = 1;
                 hard1 = false;
 
+                if(friendlyBonuses[4])
+                {
+
+                    bonusAttack++;
+
+                }
+
             }
             else if(tag1 == "FC" || tag1 == "EC")
             {
                 
                 type1 = 2;
                 hard1 = false;
+                
+                if(friendlyBonuses[5])
+                {
+
+                    bonusAttack++;
+
+                }
 
             }
             else if(tag1 == "FM" || tag1 == "EM")
@@ -550,12 +752,26 @@ public class BoardManager : MonoBehaviour
                 type1 = 3;
                 hard1 = false;
 
+                if(friendlyBonuses[5])
+                {
+
+                    bonusAttack++;
+
+                }
+
             }
             else if(tag1 == "FL" || tag1 == "EL")
             {
                 
                 type1 = 4;
                 hard1 = true;
+
+                if(friendlyBonuses[6])
+                {
+
+                    bonusAttack++;
+
+                }
 
             }
             else if(tag1 == "FH" || tag1 == "EH")
@@ -564,12 +780,26 @@ public class BoardManager : MonoBehaviour
                 type1 = 5;
                 hard1 = true;
 
+                if(friendlyBonuses[6])
+                {
+
+                    bonusAttack++;
+
+                }
+
             }
             else if(tag1 == "FA" || tag1 == "EA")
             {
                 
                 type1 = 6;
                 hard1 = false;
+
+                if(friendlyBonuses[7])
+                {
+
+                    bonusAttack++;
+
+                }
 
             }
             else if(tag1 == "FR" || tag1 == "ER")
@@ -578,7 +808,16 @@ public class BoardManager : MonoBehaviour
                 type1 = 7;
                 hard1 = false;
 
+                if(friendlyBonuses[7])
+                {
+
+                    bonusAttack++;
+
+                }
+
             }
+
+            int bonusRange2 = 0;
 
             string tag2 = units[index].tag;
             if(tag2 == "FI" || tag2 == "EI")
@@ -587,12 +826,38 @@ public class BoardManager : MonoBehaviour
                 type2 = 0;
                 hard2 = false;
 
+                if(enemyBonuses[4])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[12])
+                {
+
+                    bonusRange2++;
+
+                }
+
             }
             else if(tag2 == "FS" || tag2 == "ES")
             {
 
                 type2 = 1;
                 hard2 = false;
+
+                if(enemyBonuses[4])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[12])
+                {
+
+                    bonusRange2++;
+
+                }
 
             }
             else if(tag2 == "FC" || tag2 == "EC")
@@ -601,12 +866,38 @@ public class BoardManager : MonoBehaviour
                 type2 = 2;
                 hard2 = false;
 
+                if(enemyBonuses[5])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[13])
+                {
+
+                    bonusRange2++;
+
+                }
+
             }
             else if(tag2 == "FM" || tag2 == "EM")
             {
 
                 type2 = 3;
                 hard2 = false;
+
+                if(enemyBonuses[5])
+                {
+
+                    bonusAttack2++;
+
+                }   
+                if(enemyBonuses[13])
+                {
+
+                    bonusRange2++;
+
+                }
 
             }
             else if(tag2 == "FL" || tag2 == "EL")
@@ -615,12 +906,38 @@ public class BoardManager : MonoBehaviour
                 type2 = 4;
                 hard2 = true;
 
+                if(enemyBonuses[6])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[14])
+                {
+
+                    bonusRange2++;
+
+                }
+
             }
             else if(tag2 == "FH" || tag2 == "EH")
             {
 
                 type2 = 5;
                 hard2 = true;
+
+                if(enemyBonuses[6])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[14])
+                {
+
+                    bonusRange2++;
+
+                }
 
             }
             else if(tag2 == "FA" || tag2 == "EA")
@@ -629,12 +946,38 @@ public class BoardManager : MonoBehaviour
                 type2 = 6;
                 hard2 = false;
 
+                if(enemyBonuses[7])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[15])
+                {
+
+                    bonusRange2++;
+
+                }
+
             }
             else if(tag2 == "FR" || tag2 == "ER")
             {
 
                 type2 = 7;
                 hard2 = false;
+
+                if(enemyBonuses[7])
+                {
+
+                    bonusAttack2++;
+
+                }
+                if(enemyBonuses[15])
+                {
+
+                    bonusRange2++;
+
+                }
 
             }
 
@@ -646,12 +989,12 @@ public class BoardManager : MonoBehaviour
 
             }
             possibleAttackIndexes.Clear();
-            BreadthFirstSearchAttack(index, range[type2]);
+            BreadthFirstSearchAttack(index, range[type2] + bonusRange2);
 
             if(hard1 && hard2)
             {
 
-                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                 if(units[index].GetComponent<UnitManager>().hitpoints < 1)
                 {
                     
@@ -669,14 +1012,14 @@ public class BoardManager : MonoBehaviour
                 else if(possibleAttackIndexes.Contains(selectedUnit))
                 {
 
-                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
+                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
                         if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
 
                         }
 
@@ -691,7 +1034,7 @@ public class BoardManager : MonoBehaviour
             else if(hard1 && !hard2)
             {
 
-                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                 if(units[index].GetComponent<UnitManager>().hitpoints < 1)
                 {
                     
@@ -709,14 +1052,14 @@ public class BoardManager : MonoBehaviour
                 else if(possibleAttackIndexes.Contains(selectedUnit))
                 {
 
-                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
+                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
                         if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
 
                         }
 
@@ -731,7 +1074,7 @@ public class BoardManager : MonoBehaviour
             else if(!hard1 && hard2)
             {
 
-                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                 if(units[index].GetComponent<UnitManager>().hitpoints < 1)
                 {
 
@@ -749,14 +1092,14 @@ public class BoardManager : MonoBehaviour
                 else if(possibleAttackIndexes.Contains(selectedUnit))
                 {
 
-                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
+                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
                         if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
 
                         }
 
@@ -771,7 +1114,7 @@ public class BoardManager : MonoBehaviour
             else if(!hard1 && !hard2)
             {
 
-                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                units[index].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                 if(units[index].GetComponent<UnitManager>().hitpoints < 1)
                 {
 
@@ -789,14 +1132,14 @@ public class BoardManager : MonoBehaviour
                 else if(possibleAttackIndexes.Contains(selectedUnit))
                 {
 
-                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f);
+                    units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[index].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                     if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                     {
 
                         if(tag1 == "FI" || tag1 == "FS" || tag1 == "FC" || tag1 == "FM" || tag1 == "FL" || tag1 == "FH" || tag1 == "FA" || tag1 == "FR")
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
 
                         }
 
@@ -955,6 +1298,13 @@ public class BoardManager : MonoBehaviour
                     enemies.Add(i);
                     enemiesHaveMoved.Add(false);
 
+                    if(enemyBonuses[0])
+                    {
+
+                        newUnit.GetComponent<UnitManager>().hitpoints++;
+
+                    }
+
                 }
 
             }
@@ -983,11 +1333,27 @@ public class BoardManager : MonoBehaviour
                 
                 selectedUnit = enemies[i];
 
+                int bonusMovement = 0;
+                int bonusRange = 0;
+
                 string tag = units[selectedUnit].tag;
                 if(tag == "FI" || tag == "EI")
                 {
 
                     type = 0;
+                    
+                    if(enemyBonuses[8])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[12])
+                    {
+
+                        bonusRange++;
+
+                    }
 
                 }
                 else if(tag == "FS" || tag == "ES")
@@ -995,11 +1361,37 @@ public class BoardManager : MonoBehaviour
 
                     type = 1;
 
+                    if(enemyBonuses[8])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[12])
+                    {
+
+                        bonusRange++;
+
+                    }
+
                 }
                 else if(tag == "FC" || tag == "EC")
                 {
 
                     type = 2;
+
+                    if(enemyBonuses[9])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[13])
+                    {
+
+                        bonusRange++;
+
+                    }
 
                 }
                 else if(tag == "FM" || tag == "EM")
@@ -1007,11 +1399,37 @@ public class BoardManager : MonoBehaviour
 
                     type = 3;
 
+                    if(enemyBonuses[9])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[13])
+                    {
+
+                        bonusRange++;
+
+                    }
+
                 }
                 else if(tag == "FL" || tag == "EL")
                 {
 
                     type = 4;
+
+                    if(enemyBonuses[10])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[14])
+                    {
+
+                        bonusRange++;
+
+                    }
 
                 }
                 else if(tag == "FH" || tag == "EH")
@@ -1019,11 +1437,37 @@ public class BoardManager : MonoBehaviour
 
                     type = 5;
 
+                    if(enemyBonuses[10])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[14])
+                    {
+
+                        bonusRange++;
+
+                    }
+
                 }
                 else if(tag == "FA" || tag == "EA")
                 {
 
                     type = 6;
+
+                    if(enemyBonuses[11])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[15])
+                    {
+
+                        bonusRange++;
+
+                    }
 
                 }
                 else if(tag == "FR" || tag == "ER")
@@ -1031,11 +1475,24 @@ public class BoardManager : MonoBehaviour
 
                     type = 7;
 
+                    if(enemyBonuses[11])
+                    {
+
+                        bonusMovement++;
+
+                    }
+                    if(enemyBonuses[15])
+                    {
+
+                        bonusRange++;
+
+                    }
+
                 }
 
                 possibleMoveIndexes.Clear();
                 possibleAttackIndexes.Clear();
-                BreadthFirstSearchAttack(selectedUnit, range[type]);
+                BreadthFirstSearchAttack(selectedUnit, range[type] + bonusRange);
 
                 if(possibleAttackIndexes.Count > 0)
                 {
@@ -1047,12 +1504,22 @@ public class BoardManager : MonoBehaviour
                     bool hard1 = false;
                     bool hard2 = false;
 
+                    int bonusAttack = 0;
+                    int bonusAttack2 = 0;
+
                     string tag1 = units[selectedUnit].tag;
                     if(tag1 == "FI" || tag1 == "EI")
                     {
                     
                         type1 = 0;
                         hard1 = false;
+
+                        if(enemyBonuses[4])
+                        {
+
+                            bonusAttack++;
+
+                        }
 
                     }
                     else if(tag1 == "FS" || tag1 == "ES")
@@ -1061,12 +1528,26 @@ public class BoardManager : MonoBehaviour
                         type1 = 1;
                         hard1 = false;
 
+                        if(enemyBonuses[4])
+                        {
+
+                            bonusAttack++;
+
+                        }
+
                     }
                     else if(tag1 == "FC" || tag1 == "EC")
                     {
 
                         type1 = 2;
                         hard1 = false;
+
+                        if(enemyBonuses[5])
+                        {
+
+                            bonusAttack++;
+
+                        }
 
                     }
                     else if(tag1 == "FM" || tag1 == "EM")
@@ -1075,12 +1556,26 @@ public class BoardManager : MonoBehaviour
                         type1 = 3;
                         hard1 = false;
 
+                        if(enemyBonuses[5])
+                        {
+
+                            bonusAttack++;
+
+                        }
+
                     }
                     else if(tag1 == "FL" || tag1 == "EL")
                     {
 
                         type1 = 4;
                         hard1 = true;
+
+                        if(enemyBonuses[6])
+                        {
+
+                            bonusAttack++;
+
+                        }
 
                     }
                     else if(tag1 == "FH" || tag1 == "EH")
@@ -1089,6 +1584,13 @@ public class BoardManager : MonoBehaviour
                         type1 = 5;
                         hard1 = true;
 
+                        if(enemyBonuses[6])
+                        {
+
+                            bonusAttack++;
+
+                        }
+
                     }
                     else if(tag1 == "FA" || tag1 == "EA")
                     {
@@ -1096,12 +1598,26 @@ public class BoardManager : MonoBehaviour
                         type1 = 6;
                         hard1 = false;
 
+                        if(enemyBonuses[7])
+                        {
+
+                            bonusAttack++;
+
+                        }
+
                     }
                     else if(tag1 == "FR" || tag1 == "ER")
                     {
 
                         type1 = 7;
                         hard1 = false;
+
+                        if(enemyBonuses[7])
+                        {
+
+                            bonusAttack++;
+
+                        }
 
                     }
 
@@ -1121,81 +1637,189 @@ public class BoardManager : MonoBehaviour
 
                     }
 
+                    int bonusRange2 = 0;
+
                     string tag2 = units[attackIndex].tag;
                     if(tag2 == "FI" || tag2 == "EI")
                     {
-                    
+
                         type2 = 0;
                         hard2 = false;
+
+                        if(friendlyBonuses[4])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[12])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FS" || tag2 == "ES")
                     {
-                    
+
                         type2 = 1;
                         hard2 = false;
+
+                        if(friendlyBonuses[4])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[12])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FC" || tag2 == "EC")
                     {
-                    
+
                         type2 = 2;
                         hard2 = false;
+
+                        if(friendlyBonuses[5])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[13])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FM" || tag2 == "EM")
                     {
-                    
+
                         type2 = 3;
                         hard2 = false;
+
+                        if(friendlyBonuses[5])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[13])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FL" || tag2 == "EL")
                     {
-                    
+
                         type2 = 4;
                         hard2 = true;
+
+                        if(friendlyBonuses[6])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[14])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FH" || tag2 == "EH")
                     {
-                    
+
                         type2 = 5;
                         hard2 = true;
+
+                        if(friendlyBonuses[6])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[14])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FA" || tag2 == "EA")
                     {
-                    
+
                         type2 = 6;
                         hard2 = false;
+
+                        if(friendlyBonuses[7])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[15])
+                        {
+
+                            bonusRange2++;
+
+                        }
 
                     }
                     else if(tag2 == "FR" || tag2 == "ER")
                     {
-                    
+
                         type2 = 7;
                         hard2 = false;
 
+                        if(friendlyBonuses[7])
+                        {
+
+                            bonusAttack2++;
+
+                        }
+                        if(friendlyBonuses[15])
+                        {
+
+                            bonusRange2++;
+
+                        }
+
                     }
+
+                    BreadthFirstSearchAttack(attackIndex, range[type2] + bonusRange2);
 
                     if(hard1 && hard2)
                     {
                     
-                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
 
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
                         }
-                        else
+                        else if(possibleAttackIndexes.Contains(selectedUnit))
                         {
                         
-                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f);
+                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                             if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                             {
                             
@@ -1212,20 +1836,20 @@ public class BoardManager : MonoBehaviour
                     else if(hard1 && !hard2)
                     {
                     
-                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
                             
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
                         }
-                        else
+                        else if(possibleAttackIndexes.Contains(selectedUnit))
                         {
                         
-                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f);
+                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                             if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                             {
                             
@@ -1242,20 +1866,20 @@ public class BoardManager : MonoBehaviour
                     else if(!hard1 && hard2)
                     {
                     
-                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(hardAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
                             
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
                         }
-                        else
+                        else if(possibleAttackIndexes.Contains(selectedUnit))
                         {
                         
-                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f);
+                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                             if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                             {
                             
@@ -1272,20 +1896,20 @@ public class BoardManager : MonoBehaviour
                     else if(!hard1 && !hard2)
                     {
                     
-                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f);
+                        units[attackIndex].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softAttack[type1] * units[selectedUnit].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack;
                         if(units[attackIndex].GetComponent<UnitManager>().hitpoints < 1)
                         {
 
-                            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - 5);
+                            PlayerPrefs.SetInt(slot.ToString() + "Money", Mathf.Max(PlayerPrefs.GetInt(slot.ToString() + "Money") - 5, 0));
                             
                             Destroy(units[attackIndex]);
                             units[attackIndex] = null;
 
                         }
-                        else
+                        else if(possibleAttackIndexes.Contains(selectedUnit))
                         {
                         
-                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f);
+                            units[selectedUnit].GetComponent<UnitManager>().hitpoints -= Mathf.CeilToInt(softDefense[type2] * units[attackIndex].GetComponent<UnitManager>().hitpoints / 10.0f) + bonusAttack2;
                             if(units[selectedUnit].GetComponent<UnitManager>().hitpoints < 1)
                             {
                             
@@ -1304,7 +1928,7 @@ public class BoardManager : MonoBehaviour
                 else if(!enemiesHaveMoved[i])
                 {
 
-                    BreadthFirstSearchMove(enemies[i], speed[type], type);
+                    BreadthFirstSearchMove(enemies[i], speed[type] + bonusMovement, type);
 
                     List<int> choices = new List<int>();
 
