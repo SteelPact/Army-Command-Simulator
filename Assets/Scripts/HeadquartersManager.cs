@@ -14,13 +14,18 @@ public class HeadquartersManager : MonoBehaviour
     public TMP_Text titleText;
 
     public TMP_Text moneyIndicator;
+    public TMP_Text moneyIndicator2;
 
     public List<TMP_Text> units;
     public string[] unitNames;
 
+    public List<TMP_Text> expandIndicator;
     public List<TMP_Text> upgradeIndicator;
 
     public TMP_Text nextMaps;
+
+    public GameObject canvasMain;
+    public GameObject canvasUpgrade;
 
     void Start()
     {
@@ -37,13 +42,13 @@ public class HeadquartersManager : MonoBehaviour
             if(level >= 1 && level <= 8)
             {
 
-                nextMaps.text = "Danzig, 1939\nWarsaw, 1939\nNorway, 1940\nArdennes, 1940\nDunkirk, 1940\nCyrenaica, 1941\nBelgrade, 1941\nGreece, 1941";
+                nextMaps.text = "Part 1 - Level " + level.ToString() + "\n\n1. Danzig, 1939\n2. Warsaw, 1939\n3. Norway, 1940\n4. Ardennes, 1940\n5. Dunkirk, 1940\n6. Cyrenaica, 1941\n7. Belgrade, 1941\n8. Greece, 1941";
 
             }
             else if(level >= 9)
             {
 
-                nextMaps.text = "Belarus, 1941\nKiev, 1941\nSmolensk, 1941\nLeningrad, 1941\nMoscow, 1941\nRostov, 1941\nStalingrad, 1942\nKursk, 1943";
+                nextMaps.text = "Part 2 - Level " + level.ToString() + "\n\n9. Belarus, 1941\n10. Kiev, 1941\n11. Smolensk, 1941\n12. Leningrad, 1941\n13. Moscow, 1941\n14. Rostov, 1941\n15. Stalingrad, 1942\n16. Kursk, 1943";
 
             }
         
@@ -56,6 +61,7 @@ public class HeadquartersManager : MonoBehaviour
 
         money = PlayerPrefs.GetInt(slot.ToString() + "Money", 0);
         moneyIndicator.text = "$" + money.ToString();
+        moneyIndicator2.text = "$" + money.ToString();
         
         int unit1 = PlayerPrefs.GetInt(slot.ToString() + "Unit" + "1", 0);
         int unit2 = PlayerPrefs.GetInt(slot.ToString() + "Unit" + "2", 2);
@@ -69,11 +75,16 @@ public class HeadquartersManager : MonoBehaviour
         int hitpoints4 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "4", 10);
         int hitpoints5 = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + "5", 10);
 
-        units[0].text = unitNames[unit1] + " - Level " + hitpoints1.ToString();
-        units[1].text = unitNames[unit2] + " - Level " + hitpoints2.ToString();
-        units[2].text = unitNames[unit3] + " - Level " + hitpoints3.ToString();
-        units[3].text = unitNames[unit4] + " - Level " + hitpoints4.ToString();
-        units[4].text = unitNames[unit5] + " - Level " + hitpoints5.ToString();
+        units[0].text = unitNames[unit1] + " - Size " + hitpoints1.ToString();
+        units[1].text = unitNames[unit2] + " - Size " + hitpoints2.ToString();
+        units[2].text = unitNames[unit3] + " - Size " + hitpoints3.ToString();
+        units[3].text = unitNames[unit4] + " - Size " + hitpoints4.ToString();
+        units[4].text = unitNames[unit5] + " - Size " + hitpoints5.ToString();
+        units[5].text = unitNames[unit1] + " - Size " + hitpoints1.ToString();
+        units[6].text = unitNames[unit2] + " - Size " + hitpoints2.ToString();
+        units[7].text = unitNames[unit3] + " - Size " + hitpoints3.ToString();
+        units[8].text = unitNames[unit4] + " - Size " + hitpoints4.ToString();
+        units[9].text = unitNames[unit5] + " - Size " + hitpoints5.ToString();
 
         PlayerPrefs.SetInt(slot.ToString() + "Money", money);
 
@@ -88,11 +99,12 @@ public class HeadquartersManager : MonoBehaviour
         PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + "3", hitpoints3);
         PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + "4", hitpoints4);
         PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + "5", hitpoints5);
-
+        
         for(int i = 0; i < 5; i++)
         {
             
-            upgradeIndicator[i].text = "Upgrade - $" + Cost(i + 1).ToString();
+            expandIndicator[i].text = "Expand - $" + Cost(i + 1).ToString();
+            upgradeIndicator[i].text = "Upgrade - $" + Cost2(i + 1).ToString();
 
         }
 
@@ -165,7 +177,14 @@ public class HeadquartersManager : MonoBehaviour
 
     }
 
-    public void Upgrade(int unit)
+    public int Cost2(int unit)
+    {
+
+        return 0;
+
+    }
+
+    public void Expand(int unit)
     {
         
         int unitType = PlayerPrefs.GetInt(slot.ToString() + "Unit" + unit.ToString());
@@ -223,6 +242,12 @@ public class HeadquartersManager : MonoBehaviour
         }
 
         int cost = 10 * (unitHitpoints - 9) * costPerUpgrade;
+        if(PlayerPrefs.GetString(slot.ToString() + "Difficulty", "Hard") == "Easy")
+        {
+
+            cost = 5 * (unitHitpoints - 9) * costPerUpgrade;
+
+        }
 
         if(PlayerPrefs.GetInt(slot.ToString() + "Money") >= cost)
         {
@@ -239,6 +264,14 @@ public class HeadquartersManager : MonoBehaviour
             PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + unit.ToString(), 10);
 
         }
+
+    }
+
+    public void ChangeCanvasUpgrade()
+    {
+
+        canvasMain.SetActive(!canvasMain.activeSelf);
+        canvasUpgrade.SetActive(!canvasUpgrade.activeSelf);
 
     }
 
