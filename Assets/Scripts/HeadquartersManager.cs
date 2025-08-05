@@ -26,6 +26,7 @@ public class HeadquartersManager : MonoBehaviour
 
     public GameObject canvasMain;
     public GameObject canvasUpgrade;
+    //public GameObject canvasResearch;
 
     void Start()
     {
@@ -103,8 +104,19 @@ public class HeadquartersManager : MonoBehaviour
         for(int i = 0; i < 5; i++)
         {
             
-            expandIndicator[i].text = "Expand - $" + Cost(i + 1).ToString();
-            upgradeIndicator[i].text = "Upgrade - $" + Cost2(i + 1).ToString();
+            expandIndicator[i].text = "Expand - $" + Cost(i + 1).ToString();   
+            if(Cost2(i + 1) != 0)
+            {
+                
+                upgradeIndicator[i].text = "Upgrade - $" + Cost2(i + 1).ToString();
+
+            }
+            else
+            {
+
+                upgradeIndicator[i].text = "Upgrade - $N/A";
+
+            }
 
         }
 
@@ -180,7 +192,43 @@ public class HeadquartersManager : MonoBehaviour
     public int Cost2(int unit)
     {
 
-        return 0;
+        int unitType = PlayerPrefs.GetInt(slot.ToString() + "Unit" + unit.ToString());
+        int unitHitpoints = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + unit.ToString());
+
+        int costPerUpgrade = 0;
+
+        if(unitType == 0)
+        {
+
+            costPerUpgrade = 1;
+
+        }
+        else if(unitType == 2)
+        {
+
+            costPerUpgrade = 1;
+
+        }
+        else if(unitType == 4)
+        {
+
+            costPerUpgrade = 2;
+
+        }
+        else if(unitType == 6)
+        {
+
+            costPerUpgrade = 2;
+
+        }
+
+        if(PlayerPrefs.GetString(slot.ToString() + "Difficulty", "Hard") == "Easy")
+        {
+
+            return 10 * unitHitpoints * costPerUpgrade;
+
+        }
+        return 20 * unitHitpoints * costPerUpgrade;
 
     }
 
@@ -256,12 +304,62 @@ public class HeadquartersManager : MonoBehaviour
             PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + unit.ToString(), unitHitpoints + 1);
 
         }
-        
-        if(PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + unit.ToString()) == 16 && unitType % 2 == 0)
+
+    }
+
+    public void Upgrade(int unit)
+    {
+
+        int unitType = PlayerPrefs.GetInt(slot.ToString() + "Unit" + unit.ToString());
+        int unitHitpoints = PlayerPrefs.GetInt(slot.ToString() + "Hitpoints" + unit.ToString());
+
+        int costPerUpgrade = 0;
+
+        if(unitType == 0)
         {
 
-            PlayerPrefs.SetInt(slot.ToString() + "Unit" + unit.ToString(), PlayerPrefs.GetInt(slot.ToString() + "Unit" + unit.ToString()) + 1);
-            PlayerPrefs.SetInt(slot.ToString() + "Hitpoints" + unit.ToString(), 10);
+            costPerUpgrade = 1;
+
+        }
+        else if(unitType == 2)
+        {
+
+            costPerUpgrade = 1;
+
+        }
+        else if(unitType == 4)
+        {
+
+            costPerUpgrade = 2;
+
+        }
+        else if(unitType == 6)
+        {
+
+            costPerUpgrade = 2;
+
+        }
+
+        if(costPerUpgrade == 0)
+        {
+
+            return;
+
+        }
+
+        int cost = 20 * unitHitpoints * costPerUpgrade;
+        if(PlayerPrefs.GetString(slot.ToString() + "Difficulty", "Hard") == "Easy")
+        {
+
+            cost = 10 * unitHitpoints * costPerUpgrade;
+
+        }
+        
+        if(unitType % 2 == 0)
+        {
+
+            PlayerPrefs.SetInt(slot.ToString() + "Money", PlayerPrefs.GetInt(slot.ToString() + "Money") - cost);
+            PlayerPrefs.SetInt(slot.ToString() + "Unit" + unit.ToString(), unitType + 1);
 
         }
 
@@ -272,6 +370,14 @@ public class HeadquartersManager : MonoBehaviour
 
         canvasMain.SetActive(!canvasMain.activeSelf);
         canvasUpgrade.SetActive(!canvasUpgrade.activeSelf);
+
+    }
+
+    public void ChangeCanvasResearch()
+    {
+
+        canvasMain.SetActive(!canvasMain.activeSelf);
+        //canvasResearch.SetActive(!canvasResearch.activeSelf);
 
     }
 

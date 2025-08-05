@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -13,7 +14,16 @@ public class MainMenuManager : MonoBehaviour
     public GameObject canvasSettings;
     public AudioMixer audioMixer;
 
+    public Slider volumeSlider;
+
     public int slotToReset;
+
+    public void Start()
+    {
+
+        volumeSlider.value = PlayerPrefs.GetFloat("Volume", -40.0f);
+
+    }
 
     public void Load(int slot)
     {
@@ -103,6 +113,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void SetVolume(float volume)
     {
+        
+        PlayerPrefs.SetFloat("Volume", volume);
 
         audioMixer.SetFloat("Volume", volume);
 
