@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c8ff2b3f795ac419c27e28cc3a80d3, type: 3}
+  m_Name: ArmyStats
+  m_EditorClassIdentifier: Assembly-CSharp::ArmyStats
+  maxHealth: 100000
+  attackRadius: 50
+  damagePerSecond: 200
+  customizableDamage: 100
+  customizableDamageCooldown: 10
+  passiveHealing: 50
