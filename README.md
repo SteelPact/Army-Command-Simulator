@@ -28,8 +28,6 @@ I just want to beat Lawrence, or get him to collab on this(Jason alr on this too
     -Move speed and pathfinding extreamly customizable
     -Breaking combat gives slight health disadvantage(balancing is needed)
     -Passive healing simulating reinforcements when out of combat
-- **NO BUGS AT THE MOMENT**
-- u dont want to know how long i took to fix them (*tramatized face)
 - A finished RTS camera with control
 # ***WIP bc im lazy but may be easy to implement***
     -   GPU Instancing, GPU Resident Drawer and Upscaling, Deffered+ Renderer and Graphics Split Jobs all for better performance
